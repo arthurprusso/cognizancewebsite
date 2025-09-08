@@ -1,0 +1,3987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Conditions Dropdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-image: url('dreamstime copy');
+		  ;
+      background-size: cover;
+      display: flex;
+    }
+    .main {
+      flex: 1;
+      padding: 20px;
+      max-height: 100vh;
+      overflow-y: auto;
+      background-color: none;
+    }
+    .dropdown {
+      margin: 10px 0;
+      margin-right: 30px;
+      border-radius: 20px;
+      background-color: #e0e0e0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .dropdown summary {
+		padding: 15px 20px;
+      font-weight: bold;
+      font-size: 18px;
+		color: #4580b3;
+      background-color: #dedede;
+      border-radius: 20px 20px 0 0;
+      cursor: pointer;
+      list-style: none;
+    }
+    .dropdown ul {
+      margin: 0;
+      padding: 10px 30px 20px;
+      background-color: #f5f5f5;
+      border-radius: 0 0 20px 20px;
+    }
+    .dropdown ul li {
+      margin: 6px 0;
+      font-size: 16px;
+      color: #4580b3;
+      list-style: none;
+    }
+    .dropdown ul li::before {
+      content: '\25E6';
+      color: #3b5998;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    .alphabet-nav {
+      position: fixed;
+      z-index: 10;
+      right: 0;
+      top: 50px;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.8);
+      border-left: 1px solid #ccc;
+      padding: 10px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 10px 0 0 10px;
+    }
+    .count-circle {
+  background-color: #f2b553;
+  color: white;
+  border-radius: 50%;
+  padding: 5px .5px;
+  font-size: 12px;
+  margin-left: 10px;
+  display: inline-block;
+  min-width: 24px;
+  text-align: center;
+		 box-shadow: inset 0 0 0 1px white; /* White ring inside the orange circle */
+	
+}
+	  .alphabet-nav button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #3b5998;
+    }
+  .page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 9;
+  background: white;
+  font-size: 20px;
+  font-weight: bold;
+  color: #4580b3;
+  text-align: center;
+  padding: 20px 0 12px 0;
+  border-radius: 0 0 8px 8px;
+}
+    .search-bar {
+      position: fixed;
+      top: 50px;
+      z-index: 10;
+      background: white;
+      margin-bottom: 10;
+      padding: 6px;
+      font-size: 13px;
+      width: 94%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    #dropdownContainer {
+  margin-top: 110px; /* Height of header + search bar */
+}
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #fff;
+      background-color: rgba(255, 165, 0, 0.8);
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+     <div class="page-header" id="pageHeader">Cognizance</div>
+    <input class="search-bar" type="text" id="searchInput" placeholder="Search..." oninput="filterButtons()" />
+  <div id="dropdownContainer"></div>
+    <div id="dropdownContainer"></div>
+    <div class="footer">
+      This list is to serve as a guide to help you gain the clarity needed to address the emotional contributors to what may manifest on a physical level. This list is purely informational and is not to be used to prevent, diagnose, mitigate, or cure any illness or disease, or any emotional, mental, or personal problems.
+    </div>
+  </div>
+  <div class="alphabet-nav" id="alphabetNav"></div>
+
+  <script>
+    const data = [
+  {
+    label: "ADD & ADHD",
+    content: [
+      "low self-worth",
+      "unresolved emotional issues",
+      "feeling unable to cope with stress",
+      "feelings of rejection",
+      "feelings of neglect",
+      "feeling that needs will never be met",
+      "frustration due to inability to feel peace",
+      "crying out to the world for attention",
+      "fear"
+    ]
+  },
+  {
+    label: "AIDS",
+    content: [
+      "feeling defenseless and hopeless",
+      "feeling that nobody cares",
+      "feeling not good enough",
+      "lack of inner peace"
+    ]
+  },
+  {
+    label: "Abscess",
+    content: [
+      "festering over hurt feelings",
+      "wanting revenge"
+    ]
+  },
+  {
+    label: "Accidents",
+    content: [
+      "the feeling of being in the wrong place",
+      "inability to speak up for the self",
+      "stressed",
+      "punishing the self",
+      "resisting authority",
+      "feeling defenseless"
+    ]
+  },
+  {
+    label: "Aches",
+    content: [
+      "longing to be loved or held",
+      "feeling sad and alone",
+      "feelings of guilt",
+      "in a situation that hurts"
+    ]
+  },
+  {
+    label: "Acid Reflux",
+    content: [
+      "anxiety",
+      "resentment",
+      "stress",
+      "anger",
+      "depression"
+    ]
+  },
+  {
+    label: "Acne",
+    content: [
+      "unexpressed longing to let the inner self break through",
+      "unexpressed, pent-up emotions",
+      "not accepting the self",
+      "anger",
+      "denial"
+    ]
+  },
+  {
+    label: "Addictions",
+    content: [
+      "inability to perceive clearly and correctly",
+      "rejecting the self",
+      "avoiding feelings",
+      "feeling a lack of connection",
+      "feeling abandoned",
+      "feeling out of control"
+    ]
+  },
+  {
+    label: "Addison’s Disease",
+    content: [
+      "anger directed toward the self",
+      "lacking understanding of self/emotions"
+    ]
+  },
+  {
+    label: "Adrenal Problems",
+    content: [
+      "feeling defeated",
+      "feeling unable to care for the self",
+      "anxiety",
+      "rejecting life",
+      "seeking revenge",
+      "deep seeded grief"
+    ]
+  },
+  {
+    label: "Aging Problems",
+    content: [
+      "rejecting the present",
+      "fear of being one’s self",
+      "giving in to social beliefs"
+    ]
+  },
+  {
+    label: "Agoraphobia",
+    content: [
+      "feeling like a victim"
+    ]
+  },
+  {
+    label: "Alcoholism",
+    content: [
+      "feelings of inadequacy",
+      "self-rejection",
+      "feelings of guilt",
+      "inability to cope",
+      "feelings of futility",
+      "fear of feeling"
+    ]
+  },
+  {
+    label: "Allergies",
+    content: [
+      "denying one’s own power",
+      "suppressed weeping",
+      "feeling aggravated by someone or something",
+      "a rejection of people or things",
+      "____________________________",
+      "<strong>food allergies</strong>",
+ "internally punishing the self",
+      "inability to enjoy life",
+      "fear/anxiety",
+      "feeling helpless",
+      "feeling unable to control life",
+      "rejecting caregivers",
+      "the need for special attention"
+    ]
+  },
+  {
+    label: "Alzheimer’s Disease",
+    content: [
+      "suppressed anger",
+      "feelings of hopelessness & helplessness",
+      "wanting to live in own little world"
+    ]
+  },
+  {
+    label: "Amenorrhea",
+    content: [
+      "feeling the need to control",
+      "a need for perfectionism",
+      "pressuring the self",
+      "being self-critical",
+      "feeling uncomfortable in one’s own skin",
+      "feeling unworthy",
+      "feeling unloved"
+    ]
+  },
+  {
+    label: "Amnesia",
+    content: [
+      "fear of the future",
+      "inability to be assertive",
+      "wanting to escape"
+    ]
+  },
+  {
+    label: "Anemia",
+    content: [
+      "anger toward the self for inability to control things",
+      "feeling “I’m not enough”",
+      "lack of joy",
+      "lack of order",
+      "feeling the need to be possessive & manipulative"
+    ]
+  },
+  {
+    label: "Aneurysm",
+    content: [
+      "dealing with more than the body can handle"
+    ]
+  },
+  {
+    label: "Angina",
+    content: [
+      "emotional pain",
+      "sadness",
+      "distress",
+      "anger",
+      "fear"
+    ]
+  },
+  {
+    label: "Ankles",
+    content: [
+      "inflexibility",
+      "feelings of guilt",
+      "instability",
+      "feeling that there is no relief from the pressures in life",
+      "inability to receive pleasure"
+    ]
+  },
+  {
+    label: "Anorectal Bleeding",
+    content: [
+      "anger",
+      "frustration"
+    ]
+  },
+  {
+    label: "Anorexia",
+    content: [
+      "self-rejection/self-hatred/self-destruction",
+      "feeling unable to live up to the expectations of others",
+      "inability to care for the self"
+    ]
+  },
+  {
+    label: "Anus",
+    content: [
+      "survival is threatened by outer conditions",
+      "feeling powerless in some area",
+      "____________________________",
+      "<strong>itching",
+      "feeling guilt over the past",
+      "____________________________",
+      "<strong>pain",
+      "feeling guilt",
+      "desire for punishment"
+    ]
+  },
+  {
+    label: "Anxiety",
+    content: [
+      "feeling unable to ‘call the shots’ in life",
+      "feeling hopeless to affect a change"
+    ]
+  },
+  {
+    label: "Apathetic",
+    content: [
+      "resistance to feeling",
+      "deadening of the self"
+    ]
+  },
+  {
+    label: "Appendicitis",
+    content: [
+      "undue fears about life",
+      "wanting something but feel you can’t obtain it"
+    ]
+  },
+  {
+    label: "Appetite",
+    content: [
+      "<strong>loss of",
+      "see anorexia",
+      "____________________________",
+      "<strong>excessive",
+      "feeling the need for love, acceptance & protection"
+    ]
+  },
+  {
+    label: "Arms",
+    content: [
+      "feeling overwhelmed by life’s experiences",
+      "____________________________",
+      "<strong>left",
+      "needing to bring more in, spiritually",
+      "____________________________",
+      "<strong>right",
+      "needing to do more physically"
+    ]
+  },
+  {
+    label: "Arteries - Hardening",
+    content: [
+      "expecting disappointment",
+      "the need for perfectionism",
+      "feeling hard-hearted",
+      "being dictatorial",
+      "inability to go with the flow of life"
+    ]
+  },
+  {
+    label: "Arteriosclerosis",
+    content: [
+      "not seeing the good",
+      "being narrow-minded",
+      "inability to express feelings and emotions",
+      "worried about not being perfect"
+    ]
+  },
+  {
+    label: "Arthritis",
+    content: [
+      "feeling unloved",
+      "severely criticizing self or others",
+      "holding onto feelings of hostility",
+      "rigid in thinking & feeling",
+      "repressed anger",
+      "long-term anxiety",
+      "long-term depression",
+      "____________________________",
+      "<strong>rheumatoid",
+       "laughing on the outside, but crying on the inside",
+      "feeling totally helpless in ability to change life’s burdens"
+    ]
+  },
+  {
+    label: "Asperger’s Syndrome",
+    content: [
+      "wanting to escape the pressures of life",
+      "fearing the loss of control",
+      "anger",
+      "fear",
+      "feeling inadequate",
+      "refusal to let go",
+      "feeling unable to enjoy the beauty in life"
+    ]
+  },
+  {
+    label: "Asthma",
+    content: [
+      "suppressed sorrow or crying",
+      "needing to feel dependent",
+      "reliving childhood fears",
+      "feeling dominated by a parent",
+      "feeling unable to protest",
+      "chronic anxiety & fear",
+      "feeling unsatisfied with the self",
+      "feeling suffocated",
+      "feeling trapped"
+    ]
+  },
+  {
+    label: "Athlete’s Foot",
+    content: [
+      "not feeling accepted",
+      "inability to move forward with ease"
+    ]
+  },
+  {
+    label: "Autism",
+    content: [
+      "wanting to escape the pressures of life",
+      "fearing the loss of control",
+      "the need to control",
+      "anger",
+      "fear"
+    ]
+  },
+  {
+    label: "Auto Immune System",
+    content: [
+      "deep seeded grief",
+      "laughing on the outside, but crying on the inside",
+      "feeling helpless",
+      "wanting to give up"
+    ]
+  },
+		{
+    label: "Back Problems",
+    content: [
+      "feeling unsupported",
+      "feeling emotionally burdened",
+      "____________________________",
+      "<strong>lower",
+      "lacking financial support",
+      "experiencing fear around money",
+      "wanting to back out of something",
+      "running away",
+      "in a relationship that hurts",
+      "____________________________",
+      "<strong>middle",
+      "feeling guilty",
+      "lacking self-support & self-confidence",
+      "wanting someone to ‘get off my back’",
+      "____________________________",
+      "<strong>upper",
+      "feeling unsupported",
+      "feeling emotionally burdened",
+      "withholding love from others",
+      "feeling agitated or anxious",
+      "feelings of frustration"
+    ]
+  },
+  {
+    label: "Bad Breath",
+    content: [
+      "worrying instead of priority planning",
+      "anger"
+    ]
+  },
+  {
+    label: "Balance (loss of)",
+    content: [
+      "scattered thinking",
+      "not feeling centered"
+    ]
+  },
+  {
+    label: "Bed-wetting",
+    content: [
+      "fear toward parent or parent-figure",
+      "unconscious anger",
+      "don’t know how to get what you want",
+      "needing attention"
+    ]
+  },
+  {
+    label: "Belching",
+    content: [
+      "fear"
+    ]
+  },
+  {
+    label: "Bell’s Palsy",
+    content: [
+      "unwillingness to express feelings"
+    ]
+  },
+  {
+    label: "Bipolar Disorder",
+    content: [
+      "anger turned inward",
+      "frustration at not having things go the way you want",
+      "feeling like you’re in the wrong place (job, city, relationship, etc.)",
+      "feeling unworthy of love",
+      "refusal to deal with the world as it is"
+    ]
+  },
+  {
+    label: "Birth Defects",
+    content: [
+      "karmic - you selected to come that way. we chose our parents and our children.",
+      "unfinished business"
+    ]
+  },
+  {
+    label: "Bites",
+    content: [
+      "<strong>animal",
+      "fear",
+      "anger turned inward",
+      "feeling a need for punishment",
+      "____________________________",
+      "<strong>bug",
+      "feeling guilt over small things",
+      "fear"
+    ]
+  },
+  {
+    label: "Bladder Problems",
+    content: [
+      "yearning",
+      "feeling that there’s a lack of order, or being obsessed with order",
+      "feeling over-concerned with survival issues (money, job, health)",
+      "inability to release things/ideas",
+      "unexpressed sexual identity",
+      "inharmonious relationships",
+      "anxiety",
+      "being pissed off"
+    ]
+  },
+  {
+    label: "Bleeding",
+    content: [
+      "joy running out",
+      "anger"
+    ]
+  },
+  {
+    label: "Bleeding Gums",
+    content: [
+      "inability to feel joy regarding decisions"
+    ]
+  },
+  {
+    label: "Blisters",
+    content: [
+      "feeling unprotected emotionally",
+      "resistance",
+      "continuing a habit that irritates you"
+    ]
+  },
+  {
+    label: "Bloating",
+    content: [
+      "feeling stuck",
+      "feeling unable to express your true feelings (you swallow them)"
+    ]
+  },
+  {
+    label: "Blood Clot",
+    content: [
+      "pronounced tension",
+      "inability to flow easily with life",
+      "wanting to take things at your own pace",
+      "needing to control"
+    ]
+  },
+  {
+    label: "Blood Pressure",
+    content: [
+      "<strong>high",
+      "harboring an unresolved emotional issue",
+      "____________________________",
+      "<strong>low",
+      "feeling unloved",
+      "defeatism (feeling what’s the use?)"
+    ]
+  },
+  {
+    label: "Body Odor",
+    content: [
+      "fear",
+      "feelings of self-hatred",
+      "fearing that others are untrustworthy"
+    ]
+  },
+  {
+    label: "Boils",
+    content: [
+      "anger",
+      "something stagnant finally coming to a head"
+    ]
+  },
+  {
+    label: "Bones",
+    content: [
+      "resisting authority",
+      "internally punishing the self",
+      "not supporting the self",
+      "not caring for the self",
+      "negative beliefs about the self",
+      "feeling mentally pressured",
+      "feeling a loss of mental mobility",
+      "____________________________",
+      "<strong>breaks/fractures",
+      "rebelling",
+      "feelings of separation"
+    ]
+  },
+  {
+    label: "Borderline Personality Disorder (BPD)",
+    content: [
+      "feelings of self-hatred",
+      "giving away your power",
+      "anger",
+      "feeling stuck in the cycle of abuse",
+      "condemning self and others",
+      "holding on to blame",
+      "revenge"
+    ]
+  },
+  {
+    label: "Bowels",
+    content: [
+      "fear of displeasing a loved one",
+      "fear of releasing the old that is no longer useful",
+      "fearful of not having ample means",
+      "needing to control",
+      "unwilling to relinquish control",
+      "feeling possessive",
+      "____________________________",
+      "<strong>irritable bowel syndrome",
+      "not being open about what you really feel",
+      "holding back",
+      "loss of enthusiasm and drive"
+    ]
+  },
+  {
+    label: "Brain",
+    content: [
+      "unwilling to change old patterns",
+      "anxiety",
+      "feeling unable to control life",
+      "not being open to what you really feel",
+      "not feeling safe enough to share your knowledge",
+      "____________________________",
+      "<strong>tumors",
+      "a loss of faith either in the self, or a loss of spiritual faith",
+      "experiencing conflict between thoughts and feelings"
+    ]
+  },
+  {
+    label: "Breasts",
+    content: [
+      "issues around self-worth",
+      "____________________________",
+      "<strong>left",
+      "not nurturing yourself",
+      "putting everyone else first",
+      "feeling unloved",
+      "____________________________",
+      "<strong>right",
+      "over protecting",
+      "overbearing"
+    ]
+  },
+  {
+    label: "Breathing Problems",
+    content: [
+      "fear",
+      "not feeling the right to take up space or exist",
+      "not able to take in life fully",
+      "feeling smothered or stifled by a person or event",
+      "feelings of helplessness",
+      "feelings of guilt",
+      "anxiety",
+      "____________________________",
+      "<strong>asphyxiating",
+      "fear",
+      "not trusting the process of life",
+      "getting stuck in childhood trauma/issues",
+      "____________________________",
+      "<strong>hyperventilation",
+      "fear",
+      "resisting change",
+      "not trusting the process"
+    ]
+  },
+  {
+    label: "Bronchitis",
+    content: [
+      "extreme disharmony in the home",
+      "wanting to be able to change things, but can’t",
+      "wanting to be the one in charge/control",
+      "feeling smothered"
+    ]
+  },
+    {
+    label: "Bruises",
+    content: [
+      "self-punishment",
+      "unresolved feelings about something",
+      "desire for justice to be served",
+      "feeling unprotected",
+      "feeling the need to take a break from the pressures of life"
+    ]
+  },
+  {
+    label: "Bug Infestation",
+    content: [
+      "confusion"
+    ]
+  },
+  {
+    label: "Bulimia",
+    content: [
+      "inability to accept the self",
+      "feeling a lack of control over one’s self",
+      "unsatisfied needs never met",
+      "feeling unable to measure up to others’ expectations",
+      "feeling not good enough to thrive",
+      "fear of thriving"
+    ]
+  },
+  {
+    label: "Bullous Pemphigoid",
+    content: [
+      "continuing a habit that irritates you",
+      "needing to take time to care for yourself",
+      "denying one’s own power",
+      "feeling aggravated by someone or something"
+    ]
+  },
+  {
+    label: "Bunions",
+    content: [
+      "being stubborn and inflexible in your direction",
+      "constant and chronic fear"
+    ]
+  },
+  {
+    label: "Burns",
+    content: [
+      "anger"
+    ]
+  },
+  {
+    label: "Bursitis",
+    content: [
+      "repressed anger",
+      "wanting to hit someone",
+      "anxiety",
+      "feeling a loss of control",
+      "built up tension",
+      "frustration regarding the flow of life"
+    ]
+  },
+  {
+    label: "Buttocks",
+    content: [
+      "feeling a loss of power"
+    ]
+  },
+   {
+    label: "Calluses",
+    content: [
+      "fear solidified",
+      "not being open to new ways of thinking/learning"
+    ]
+  },
+  {
+    label: "Cancer (a form of self-destruction)",
+    content: [
+      "deep hurt",
+      "longstanding resentment",
+      "____________________________",
+      "<strong>blood leukemia",
+      "intense depression",
+      "anger",
+      "feelings of ill will",
+      "lack of pure love for self and others",
+      "____________________________",
+      "<strong>breast",
+      "not nurturing the self",
+      "putting everyone else first",
+      "____________________________",
+      "<strong>cervix",
+      "repressed anger",
+      "____________________________",
+      "<strong>female organs",
+      "repressed anger (usually at male authority figures)",
+      "feeling an emptiness in life",
+      "feelings of hostility being suppressed",
+      "feeling unfulfilled in relationships",
+      "repressed feelings of hopelessness/helplessness",
+      "holding onto rage, resentment, hate, revenge, or jealousy",
+      "____________________________",
+      "<strong>prostate",
+      "repressed anger at being restricted",
+      "____________________________",
+      "<strong>skin",
+      "feeling inadequate",
+      "feeling unworthy",
+      "____________________________",
+      "<strong>small of back",
+      "unresolved emotional issues",
+      "____________________________",
+      "<strong>stomach",
+      "feeling unwilling to forgive",
+      "feelings of condemnation",
+      "wanting revenge",
+      "____________________________",
+      "<strong>uterine",
+      "being ticked off at the male gender",
+      "repressed anger",
+      "feeling like a martyr"
+    ]
+  },
+  {
+    label: "Candida (see thrush, yeast infections)",
+    content: [
+      "untrusting in relationships",
+      "doubting the self",
+      "resentment multiplying inside",
+      "inability to claim one’s own power",
+      "unresolved negative feelings molding in the body",
+      "always taking from others"
+    ]
+  },
+  {
+    label: "Canker sores",
+    content: [
+      "festering words held by the lips",
+      "blaming others",
+      "overwork coupled with emotional stress",
+      "unresolved emotional upsets"
+    ]
+  },
+  {
+    label: "Car Sickness",
+    content: [
+      "fear",
+      "feeling trapped",
+      "fear of not having control"
+    ]
+  },
+  {
+    label: "Cardiovascular Disorder",
+    content: [
+      "feelings of low self-worth",
+      "driven to compete, achieve and acquire material wealth",
+      "impatience"
+    ]
+  },
+  {
+    label: "Carpal Tunnel",
+    content: [
+      "anger and frustration at life’s seeming injustices",
+      "inability to claim one’s own power"
+    ]
+  },
+  {
+    label: "Cataracts",
+    content: [
+      "inability to see ahead with joy",
+      "feelings of futility (a dark future)"
+    ]
+  },
+  {
+    label: "Cellulite",
+    content: [
+      "stored anger and self-punishment"
+    ]
+  },
+  {
+    label: "Cerebral Palsy",
+    content: [
+      "a need to unite the family in an action of love"
+    ]
+  },
+  {
+    label: "Chest",
+    content: [
+      "lacking compassion",
+      "feeling that your emotions are not valid or considered"
+    ]
+  },
+  {
+    label: "Cholesterol",
+    content: [
+      "belief that ‘I’m not supposed to be happy’",
+      "denying self joy"
+    ]
+  },
+  {
+    label: "Chronic Diseases",
+    content: [
+      "unwilling to change for the better",
+      "feeling unsafe",
+      "fear of the future"
+    ]
+  },
+  {
+    label: "Chronic Fatigue Syndrome",
+    content: [
+      "feeling totally alone",
+      "feeling hopeless",
+      "tired of trying to prove yourself",
+      "feelings of low self-worth",
+      "has lost the will to live"
+    ]
+  },
+  {
+    label: "Circulation Problems",
+    content: [
+      "feeling overloaded",
+      "inability to let go",
+      "feelings of tension and discouragement",
+      "feeling the need to prove yourself",
+      "putting yourself down"
+    ]
+  },
+  {
+    label: "Cold Sores",
+    content: [
+      "inability to express anger",
+      "unable to cope with the pressures of life",
+      "feeling resentful of the load you are carrying",
+      "not wanting to accept specific news"
+    ]
+  },
+  {
+    label: "Colds",
+    content: [
+      "unkind feelings towards someone",
+      "confusion in the home",
+      "confusion in life",
+      "belief in seasonal sickness",
+      "too much going on at once"
+    ]
+  },
+  {
+    label: "Colic",
+    content: [
+      "unhappy with one’s surroundings",
+      "feelings of irritation",
+      "impatience"
+    ]
+  },
+  {
+    label: "Colitis",
+    content: [
+      "excessive worry",
+      "feelings of oppression",
+      "feelings of defeat",
+      "needing affection",
+      "____________________________",
+      "<strong>ulcerative (often manifests in those with obsessive-compulsive behavior)",
+      "indecisiveness",
+      "anxiety",
+      "inability to direct anger correctly",
+      "feeling a need to conform",
+      "feeling like a martyr"
+    ]
+  },
+  {
+    label: "Colon",
+    content: [
+      "fear of letting go",
+      "bottled up hate",
+      "____________________________",
+      "<strong>ascending",
+      "lacking compassion for the self",
+      "____________________________",
+      "<strong>transverse",
+      "not being open/truthful with self or others",
+      "____________________________",
+      "<strong>descending",
+      "inability to relax"
+    ]
+  },
+  {
+    label: "Color Blind",
+    content: [
+      "unable to see things the way they are"
+    ]
+  },
+  {
+    label: "Coma",
+    content: [
+      "escaping someone or something"
+    ]
+  },
+  {
+    label: "Concussion",
+    content: [
+      "not wanting to know something that you need to hear"
+    ]
+  },
+  {
+    label: "Congestion",
+    content: [
+      "feeling that your emotions are not valid or considered",
+      "feeling a lack of support",
+      "unable to express grief"
+    ]
+  },
+  {
+    label: "Conjunctivitis",
+    content: [
+      "feelings of frustration at what you see in life",
+      "feelings of anger towards life"
+    ]
+  },
+  {
+    label: "Constipation",
+    content: [
+      "unwilling to release old feelings and beliefs",
+      "blocking what you want to say",
+      "anxiety"
+    ]
+  },
+  {
+    label: "Corns",
+    content: [
+      "holding on to past hurts",
+      "hardened feelings"
+    ]
+  },
+  {
+    label: "Coronavirus",
+    content: [
+      "having negative thoughts and feelings against yourself",
+      "see also: viral infections"
+    ]
+  },
+  {
+    label: "Coughs",
+    content: [
+      "having to say something",
+      "nervousness",
+      "feelings of criticism",
+      "feelings of annoyance",
+      "feeling that present conditions and future possibilities are intolerable",
+      "feeling like you’re choking on life",
+      "wanting the world to listen to you"
+    ]
+  },
+  {
+    label: "Cramps",
+    content: [
+      "fear of pain",
+      "feelings of guilt",
+      "tension"
+    ]
+  },
+  {
+    label: "Crohn’s",
+    content: [
+      "inability to give and/or receive love",
+      "on-going tension concerning a situation",
+      "unresolved resentment",
+      "insecurity",
+      "excessive worry",
+      "feeling the need to conform",
+      "feeling possessive",
+      "not being open about what you really feel",
+      "feeling like giving up",
+      "feelings of helplessness",
+      "feelings of apathy",
+      "condemning the success of other people",
+      "feelings of jealousy"
+    ]
+  },
+  {
+    label: "Croup",
+    content: [
+      "fear",
+      "not feeling approval",
+      "feeling that present conditions and future possibilities are intolerable",
+      "feeling like you are choking on life",
+      "feeling that life is monotonous",
+      "repressed anger and frustration"
+    ]
+  },
+  {
+    label: "Cuts",
+    content: [
+      "punishment for not following your own rules"
+    ]
+  },
+  {
+    label: "Cystic Fibrosis",
+    content: [
+      "the belief that ‘life works for everyone but me’"
+    ]
+  },
+  {
+    label: "Cystitis",
+    content: [
+      "unresolved irritability",
+      "habitual unhappy thought patterns",
+      "feeling that you can’t get what you want"
+    ]
+  },
+  {
+    label: "Cysts",
+    content: [
+      "feeling sorry for the self",
+      "inability to resolve hurt feelings"
+    ]
+  },
+  {
+    label: "Dandruff",
+    content: [
+      "feeling that things have to be done a certain way",
+      "impatient with the way others do things",
+      "blocking self-acceptance",
+    ]
+  },
+  {
+    label: "Deafness",
+    content: [
+      "wanting to be isolated",
+      "feeling more comfortable in own little world",
+      "fear of rejection",
+    ]
+  },
+  {
+    label: "Dementia",
+    content: [
+      "refusing to deal with the world as it is",
+      "feeling hopeless & helpless",
+      "tired of having to struggle with life",
+      "unresolved anger",
+    ]
+  },
+  {
+    label: "Depression",
+    content: [
+      "anger turned inward",
+      "feeling hopeless/helpless",
+      "feeling like quitting or giving up on life",
+      "feeling ‘i’ll never be able to be enough or do enough’",
+      "feeling that things are beyond your control",
+    ]
+  },
+  {
+    label: "Diabetes",
+    content: [
+      "disappointed in life",
+      "longing for what might have been",
+      "judging self or others severely",
+      "on-going feelings of sorrow",
+      "emotional shock",
+      "the joy of life is gone",
+      "obsessed with wanting to control",
+      "regret",
+    ]
+  },
+  {
+    label: "Diarrhea",
+    content: [
+      "running away from a situation",
+      "giving up your goals when unable to have what you desire",
+      "fear",
+      "rejecting the visualization of something you don’t want to accept",
+      "wanting to be done with someone or something",
+      "obsessed with order",
+    ]
+  },
+  {
+    label: "Digestion Problems",
+    content: [
+      "no ability to digest or accept others’ beliefs, different circumstance, or what is happening to us",
+    ]
+  },
+  {
+    label: "Diverticulitis",
+    content: [
+      "having a difficult time being sociable",
+      "inability to express true feelings",
+    ]
+  },
+  {
+    label: "Dizziness",
+    content: [
+      "refusal to see and accept things as they are",
+      "feeling overloaded",
+      "lack of solid self-direction",
+      "not taking personal time for the self",
+      "being unorganized",
+      "not wanting to cope",
+    ]
+  },
+  {
+    label: "Dowager’s Hump",
+    content: [
+      "unresolved anger",
+      "built up resentments",
+      "carrying the burdens of others",
+    ]
+  },
+  {
+    label: "Dry Eye",
+    content: [
+      "angry",
+      "spiteful",
+      "unable to express grief",
+    ]
+  },
+  {
+    label: "Dysphagia (difficulty swallowing)",
+    content: [
+      "feeling hopeless",
+      "fear",
+      "not speaking your truth",
+      "inability to claim one’s own power",
+    ]
+  },
+  {
+    label: "Dysentery",
+    content: [
+      "fear of the present",
+      "cannot face what is going on",
+      "____________________________",
+      "<strong>amoebic",
+      "belief that everything & everyone is out to get you",
+      "____________________________",
+      "<strong>bacillary",
+      "oppression",
+      "hopelessness",
+    ]
+  },
+  {
+    label: "Dysmenorrhea",
+    content: [
+      "anger at the self",
+      "hatred toward women",
+    ]
+  },
+  {
+    label: "Dyslexia",
+    content: [
+      "the need for nonconformity",
+      "feeling that others want to call the shots in your life",
+    ]
+  },
+{
+    label: "Ears",
+    content: [
+      "intolerance",
+      "feeling that nobody is listening to you or not wanting to listen to others",
+      "____________________________",
+      "<strong>hearing problems",
+      "trying to force someone to hear things your way",
+      "____________________________",
+      "<strong>wax (hardened)",
+      "not wanting to hear about new things",
+      "____________________________",
+      "<strong>infection",
+      "feeling stagnant",
+      "impatience",
+      "not tolerating new information",
+      "____________________________",
+      "<strong>earache",
+      "angry at what you are hearing",
+      "unable to tolerate a situation or information",
+      "not wanting to hear what is going on",
+      "____________________________",
+      "<strong>earache in children",
+      "unable to abide the turmoil in the home",
+    ]
+  },
+  {
+    label: "Eczema",
+    content: [
+      "feeling unprotected",
+      "feeling held back",
+      "hurt feelings",
+      "irritation",
+      "feeling overexposed",
+    ]
+  },
+  {
+    label: "Edema",
+    content: [
+      "feeling a need to be immobilized",
+    ]
+  },
+  {
+    label: "Elbow",
+    content: [
+      "inability to accept new experiences",
+      "inability to change focus",
+      "insecurity",
+    ]
+  },
+  {
+    label: "Elimination Problems",
+    content: [
+      "holding onto the past",
+      "built up tension",
+      "fear",
+      "mistrust",
+    ]
+  },
+  {
+    label: "Emphysema",
+    content: [
+      "feeling unworthy to live",
+      "unable to be yourself",
+      "fears taking in life to the fullest",
+    ]
+  },
+  {
+    label: "Encephalitis",
+    content: [
+      "feeling overwhelmed by responsibilities",
+      "feeling ‘there’s no use trying anymore’",
+      "bitterness & ugliness overshadowing the beautiful & good in life",
+      "feeling hopeless",
+      "fear of the unknown",
+    ]
+  },
+  {
+    label: "Endocrine System",
+    content: [
+      "drastic imbalances in life",
+    ]
+  },
+  {
+    label: "Endometriosis",
+    content: [
+      "frustration",
+      "insecurity",
+      "feeling a lack of self-love",
+      "wanting to blame problems on others",
+      "lacking in understanding of the self",
+      "unresolved sadness",
+    ]
+  },
+  {
+    label: "Energy (continual lack of)",
+    content: [
+      "unresolved sadness",
+      "wishing you could quit",
+    ]
+  },
+  {
+    label: "Epilepsy",
+    content: [
+      "feeling a need to persecute the self",
+      "an inability to accept how you do things",
+      "violence against the self",
+      "rejection of life",
+    ]
+  },
+  {
+    label: "Eyelids",
+    content: [
+      "flaky skin",
+      "unable to say what you feel",
+      "____________________________",
+      "<strong>protruding",
+      "resenting change",
+      "not wanting to voice how you feel",
+      "____________________________",
+      "<strong>red",
+      "not speaking the truth of what you see",
+    ]
+  },
+  {
+    label: "Eyes",
+    content: [
+      "retina represents your feelings; fovea represents your thinking. they need to work together for proper vision. when we are not single-minded, they begin to separate",
+      "refusing to look at and see the real issue",
+      "not wanting to understand what you are seeing",
+      "not seeing eye to eye with another",
+      "____________________________",
+      "<strong>astigmatism",
+      "fear of really seeing the self",
+      "____________________________",
+      "<strong>far sighted",
+      "fear of the present",
+      "____________________________",
+      "<strong>near sighted",
+      "fear of the future",
+      "____________________________",
+      "<strong>uncontrolled blinking",
+      "not wanting to see what you haven’t done",
+      "wasting time in between opportunities",
+      "____________________________",
+      "<strong>cataracts",
+      "inability to see ahead with joy",
+      "feelings of futility (a dark future)",
+      "____________________________",
+      "<strong>circles under",
+      "bitterness",
+      "self-condemnation",
+      "resentment/hurt",
+      "feeling unfulfilled",
+      "grief",
+      "____________________________",
+      "<strong>dry eye",
+      "angry",
+      "spiteful",
+      "unable to express grief",
+      "____________________________",
+      "<strong>glaucoma",
+      "unforgiveness",
+      "pressure from long-standing hurts",
+      "feeling overwhelmed by it all",
+      "____________________________",
+      "<strong>itching",
+      "feeling that you’re not doing what is best for you",
+      "____________________________",
+      "<strong>sty",
+      "unresolved anger towards someone",
+      "resentment",
+      "____________________________",
+      "<strong>watery",
+      "unable to express an inner grief",
+      "unable to say what you would like to",
+    ]
+  },
+ {
+    label: "Face",
+    content: [
+      "paralysis",
+      "anxiety",
+      "doubting one’s own competence",
+      "inability to face something",
+      "problems with relationships",
+      "judging the self harshly",
+      "feeling rejected"
+    ]
+  },
+  {
+    label: "Fainting",
+    content: [
+      "feeling unable to cope",
+      "fear",
+      "not facing what you need to learn",
+      "feeling that there’s nothing to look forward to"
+    ]
+  },
+  {
+    label: "Falling Over",
+    content: [
+      "feeling insecure"
+    ]
+  },
+  {
+    label: "Fallopian Tubes (blocked)",
+    content: [
+      "nervous tension"
+    ]
+  },
+  {
+    label: "Fat",
+    content: [
+      "feeling the need for protection",
+      "resistance to forgiving",
+      "hidden anger",
+      "____________________________",
+      "<strong>arms</strong>",
+      "anger at being denied love",
+      "____________________________",
+      "<strong>belly</strong>",
+      "anger at being denied nourishment",
+      "____________________________",
+      "<strong>hips</strong>",
+      "lumps of stubborn anger at the parents",
+      "____________________________",
+      "<strong>thighs</strong>",
+      "packed childhood anger - often rage at the father"
+    ]
+  },
+  {
+    label: "Fatigue",
+    content: [
+      "resisting life",
+      "feeling bored",
+      "not enjoying your place in life",
+      "experiencing burn out in one’s job or relationship"
+    ]
+  },
+  {
+    label: "Feet",
+    content: [
+      "not liking the direction you are going",
+      "fear of the future",
+      "fear of stepping forward in life",
+      "____________________________",
+      "<strong>cold feet</strong>",
+      "uncertain about a plan of action",
+      "backing out",
+      "feeling a need to withdraw or resist",
+      "____________________________",
+      "<strong>left foot</strong>",
+      "(feminine role)",
+      "____________________________",
+      "<strong>right foot</strong>",
+      "(masculine role)",
+      "____________________________",
+      "<strong>pointed outward</strong>",
+      "(right foot) fear of physical/material direction",
+      "(left foot) fear of spiritual direction",
+      "____________________________",
+      "<strong>pigeon-toed</strong>",
+      "inhibited in your direction",
+      "____________________________",
+      "<strong>toes curled under</strong>",
+      "unbalanced direction",
+      "feeling inferior",
+      "____________________________",
+      "<strong>walking on insides</strong>",
+      "difficulty in planting feet squarely on ground",
+      "not feeling solid in your direction",
+      "fears facing what needs to be done",
+      "____________________________",
+      "<strong>walking on toes</strong>",
+      "living in the future",
+      "hurrying through life",
+      "lack of peace",
+      "self-criticism",
+      "fear",
+      "feeling inferior",
+      "____________________________",
+      "<strong>heels</strong>",
+      "lack of understanding",
+      "worrying about the future",
+      "feeling unprepared for what life has to offer"
+    ]
+  },
+  {
+    label: "Female Problems",
+    content: [
+      "emotional block where own sexuality is concerned",
+      "feeling inadequate in sexual role",
+      "feelings of fear or guilt about sex",
+      "refusing to let go of the past",
+      "rejecting feminine nature"
+    ]
+  },
+  {
+    label: "Fever",
+    content: [
+      "feelings of anger unable to be expressed",
+      "resistance",
+      "emotionally burning up about something",
+      "being affected by lack of order"
+    ]
+  },
+  {
+    label: "Fever Blisters",
+    content: [
+      "see cold sores"
+    ]
+  },
+  {
+    label: "Fibroid Tumors & Cysts",
+    content: [
+      "unresolved hurts",
+      "an injured ego"
+    ]
+  },
+  {
+    label: "Fibromyalgia",
+    content: [
+      "feelings of despair",
+      "feelings of guilt",
+      "in a relationship that hurts",
+      "repressed anger and frustration",
+      "has lost the will to live",
+      "wanting to escape"
+    ]
+  },
+  {
+    label: "Fingernails (biting)",
+    content: [
+      "wanting to destroy oneself",
+      "resisting authority",
+      "over-analyzing details",
+      "unfulfilled desires",
+      "feeling spiteful towards parents",
+      "frustration"
+    ]
+  },
+  {
+    label: "Fingers (fussing over details of life)",
+    content: [
+      "____________________________",
+      "<strong>thumb</strong>",
+      "affected by worry, depression, hate, anxiety, guilt & self-protection",
+      "____________________________",
+      "<strong>index</strong>",
+      "affect by fear, resentment, and ego",
+      "____________________________",
+      "<strong>middle</strong>",
+      "affected by anger, bitterness, and sexuality",
+      "____________________________",
+      "<strong>ring",
+      "affected by grief and inability to flow with life",
+      "____________________________",
+      "<strong>little",
+      "affected by pretense, deceit & unforgiveness"
+    ]
+  },
+  {
+    label: "Flatulence",
+    content: [
+      "fear",
+      "undigested ideas"
+    ]
+  },
+  {
+    label: "Flu",
+    content: [
+      "fear",
+      "belief in the worst happening to you",
+      "belief in mass negativity",
+      "see immune system"
+    ]
+  },
+  {
+    label: "Food Poisoning",
+    content: [
+      "allowing others to take control",
+      "feeling defenseless"
+    ]
+  },
+  {
+    label: "Fractures (see bone problems)",
+    content: []
+  },
+  {
+    label: "Frigidity",
+    content: [
+      "unresolved fears",
+      "resentments or guilt having to do with sex and sexual relationships",
+      "fixations",
+      "complexes or neurotic attachments affecting emotional nature"
+    ]
+  },
+  {
+    label: "Fungus",
+    content: [
+      "inability to let go of the past"
+    ]
+  },
+ {
+    label: "Gallbladder",
+    content: [
+      "bitterness",
+      "anger",
+      "wanting to force things"
+    ]
+  },
+  {
+    label: "Gallstones",
+    content: [
+      "bitterness",
+      "condemning",
+      "pride",
+      "unforgiving"
+    ]
+  },
+  {
+    label: "Gangrene",
+    content: [
+      "unresolved poisonous feelings",
+      "mental morbidity"
+    ]
+  },
+  {
+    label: "Gas Pains",
+    content: [
+      "fear",
+      "undigested ideas"
+    ]
+  },
+  {
+    label: "Gastritis",
+    content: [
+      "prolonged uncertainty",
+      "anxiety",
+      "a feeling of doom"
+    ]
+  },
+  {
+    label: "Genitals (problems with)",
+    content: [
+      "worry about not being good enough"
+    ]
+  },
+  {
+    label: "Glandular Problems",
+    content: [
+      "living in the past",
+      "unresolved feelings that have created gross imbalance",
+      "holding yourself back"
+    ]
+  },
+  {
+    label: "Goiter",
+    content: [
+      "feeling unfulfilled",
+      "feelings of being used",
+      "feeling that your purpose has been thwarted"
+    ]
+  },
+  {
+    label: "Gout",
+    content: [
+      "wanting to dominate or control others",
+      "rejecting others or the world around you",
+      "anger",
+      "impatience",
+      "judging others harshly"
+    ]
+  },
+  {
+    label: "Growths",
+    content: [
+      "unresolved anger & resentments",
+      "nursing old hurts",
+      "a false sense of pride"
+    ]
+  },
+  {
+    label: "Gum Problems",
+    content: [
+      "not carrying out decisions once they are made",
+      "____________________________",
+      "<strong>bleeding",
+      "pressuring yourself to quit procrastinating"
+    ]
+  },
+   {
+    label: "Hair",
+    content: [
+      "crown baldness",
+      "feelings of unworthiness",
+      "not accepting of the self",
+      "____________________________",
+      "<strong>dry</strong>",
+      "holding back",
+      "not knowing yourself",
+      "feelings of inadequacy",
+      "____________________________",
+      "<strong>falling out</strong>",
+      "inflexible in thinking",
+      "not using your own power",
+      "relying on others for your sense of security/safety",
+      "____________________________",
+      "<strong>graying</strong>",
+      "stress",
+      "____________________________",
+      "<strong>graying (back of head)</strong>",
+      "not accepting yourself",
+      "____________________________",
+      "<strong>graying (front of head)</strong>",
+      "not believing in what you do and say",
+      "____________________________",
+      "<strong>graying (overnight)</strong>",
+      "shock from letting go of your power",
+      "____________________________",
+      "<strong>receding</strong>",
+      "feeling inadequate and/or worthless"
+    ]
+  },
+  {
+    label: "Hands",
+    content: [
+      "fearing new ideas",
+      "fearing lack of opportunities",
+      "____________________________",
+      "<strong>left</strong>",
+      "receiving or being passive",
+      "____________________________",
+      "<strong>right</strong>",
+      "giving, reaching out, or acting aggressively",
+      "____________________________",
+      "<strong>arthritis</strong>",
+      "rigid thinking",
+      "feeling the need to be perfect or maintain control",
+      "severe self-criticism and criticism of others",
+      "inflexible feelings",
+      "____________________________",
+      "<strong>cramps</strong>",
+      "feeling unable to communicate well verbally",
+      "____________________________",
+      "<strong>sweaty</strong>",
+      "fears making mistakes",
+      "fears appearing incompetent or foolish"
+    ]
+  },
+  {
+    label: "Hay Fever",
+    content: [
+      "emotional congestion",
+      "belief in seasonal allergies",
+      "feelings of guilt",
+      "wanting to get even",
+      "tears being held back",
+      "feelings of rage",
+      "feelings of aggression",
+      "fear",
+      "feelings of grief"
+    ]
+  },
+  {
+    label: "Headaches",
+    content: [
+      "<strong>frontal</strong>",
+      "holding onto old limitations",
+      "not seeing the good in anything",
+      "feeling that you’re better than other people",
+      "____________________________",
+      "<strong>tension and stress</strong>",
+      "inability to resolve emotional upsets",
+      "hurt feelings going unexpressed",
+      "feeling unable to control",
+      "anxiety",
+      "inability to face an issue",
+      "impatience with self in feeling that you haven’t done enough",
+      "____________________________",
+      "<strong>migraines</strong>",
+      "unable to flow easily with life",
+      "wanting to take things at your own pace",
+      "disliking feeling pushed",
+      "inability to handle pressure or stress for long periods",
+      "pushing to control; wanting to control"
+    ]
+  },
+  {
+    label: "Heart Problems",
+    content: [
+      "violating the laws of love, knowingly or unknowingly",
+      "feelings of compassion being blocked",
+      "feelings of resentment and/or hurt",
+      "upsetting family problems",
+      "having a difficult time forgiving (including the self)",
+      "wanting a release from responsibility",
+      "in a relationship that hurts",
+      "feeling a lack of joy",
+      "holding onto strain & stress",
+      "inability to give and/or receive love",
+      "feelings of heartbreak",
+      "not following your heart",
+      "feeling that you lost love",
+      "feelings related to experiencing a death in the family"
+    ]
+  },
+  {
+    label: "Heartburn",
+    content: [
+      "fear"
+    ]
+  },
+  {
+    label: "Heels",
+    content: [
+      "lacking understanding",
+      "worrying about the future",
+      "feeling unprepared for what life has to offer"
+    ]
+  },
+  {
+    label: "Hemorrhoids",
+    content: [
+      "feeling burdened",
+      "feeling pressured or anxious",
+      "feeling fear or tension",
+      "feeling afraid to let go",
+      "fear of deadlines",
+      "anger"
+    ]
+  },
+  {
+    label: "Hepatitis",
+    content: [
+      "resistance to change",
+      "fear",
+      "feelings of anger",
+      "feelings of hate"
+    ]
+  },
+  {
+    label: "Hernia",
+    content: [
+      "feeling angry regarding what’s happening in your life",
+      "feeling burdened",
+      "ruptured relationships"
+    ]
+  },
+  {
+    label: "Herpes",
+    content: [
+      "feelings of guilt",
+      "feelings of shame",
+      "anxiety",
+      "feelings of anger"
+    ]
+  },
+  {
+    label: "Hips",
+    content: [
+      "fears making major decisions",
+      "has nothing to look forward to",
+      "lacking emotional & physical self-support",
+      "not wanting to accept present experiences"
+    ]
+  },
+  {
+    label: "Hirsutism",
+    content: [
+      "a desire to blame",
+      "unwillingness to nurture the self",
+      "feelings of anger",
+      "fear"
+    ]
+  },
+  {
+    label: "Hives",
+    content: [
+      "small hidden fears",
+      "feeling mistreated",
+      "feelings of anger",
+      "wanting to protest, but feeling unable to"
+    ]
+  },
+  {
+    label: "Hodgkin's Disease",
+    content: [
+      "feeling a continual need to prove the self",
+      "feeling a frantic need to feel accepted",
+      "inability to accept the self"
+    ]
+  },
+  {
+    label: "Huntington’s Disease",
+    content: [
+      "feelings of resentment due to an inability to change others",
+      "feelings of hopelessness & helplessness",
+      "feelings of deep sorrow"
+    ]
+  },
+  {
+    label: "Hyperactivity",
+    content: [
+      "always wanting needs to be met, but feeling helpless to have it happen",
+      "feeling frustrated due to an inability to feel peace"
+    ]
+  },
+  {
+    label: "Hypertension (high blood pressure)",
+    content: [
+      "feeling a strong need to be in control",
+      "allowing people or situations to bother you",
+      "interfering in others’ business",
+      "being ruled by emotions",
+      "repressed anger",
+      "feelings of grief"
+    ]
+  },
+  {
+    label: "Hyperthyroidism",
+    content: [
+      "feelings of rage for being overlooked"
+    ]
+  },
+  {
+    label: "Hyperventilation",
+    content: [
+      "fear",
+      "feelings of resistance to life’s uncertainties"
+    ]
+  },
+  {
+    label: "Hypoglycemia",
+    content: [
+      "lacking feeling joy in life",
+      "feeling overwhelmed by burdens"
+    ]
+  },
+  {
+    label: "Hypotension (low blood pressure)",
+    content: [
+      "being more devoted to outside things than to yourself",
+      "not loving yourself",
+      "feeling a loss of enthusiasm and drive"
+    ]
+  },
+  {
+    label: "Hypothyroidism (under-active thyroid)",
+    content: [
+      "giving up",
+      "not speaking your truth",
+      "not living your true calling",
+      "burying your deepest desires"
+    ]
+  },
+ {
+    label: "Immune System",
+    content: [
+      "feelings that are going against your inner peace",
+      "inability to care (feelings) for others",
+      "feeling ‘there’s no use trying anymore’",
+      "feeling ‘i’m not enough’",
+      "needing to take time to care for yourself"
+    ]
+  },
+  {
+    label: "Impotence",
+    content: [
+      "conflicting ideas about sex",
+      "fear, resentments or guilt having to do with sex and sexual relationships",
+      "unresolved fears towards your mother",
+      "emotional nature affected by complexes, fixations, or neurotic attachments"
+    ]
+  },
+  {
+    label: "Incontinence",
+    content: [
+      "overflowing emotions",
+      "not being loyal to yourself",
+      "weary of controlling emotions"
+    ]
+  },
+  {
+    label: "Incurable Disease",
+    content: [
+      "longstanding condemnation of self & others"
+    ]
+  },
+  {
+    label: "Indigestion",
+    content: [
+      "feeling that everyone is against you",
+      "feeling that you need to fight your way through life",
+      "anxiety",
+      "fear of losing security"
+    ]
+  },
+  {
+    label: "Infection",
+    content: [
+      "feelings of anger being manifested",
+      "feelings of suspicion, irritation, or annoyance"
+    ]
+  },
+  {
+    label: "Infestation",
+    content: [
+      "confusion"
+    ]
+  },
+  {
+    label: "Inflammation",
+    content: [
+      "feelings of anger",
+      "fear"
+    ]
+  },
+  {
+    label: "Influenza",
+    content: [
+      "believing that the worst will happen to you",
+      "fearing the worst",
+      "a response to mass negativity & beliefs"
+    ]
+  },
+  {
+    label: "Injuries",
+    content: [
+      "feelings of guilt & a need to be punished",
+      "anger toward the self"
+    ]
+  },
+  {
+    label: "Insanity",
+    content: [
+      "wanting to escape",
+      "inability to cope",
+      "wanting to flee from family",
+      "unable to let go of old ideas or things of the past"
+    ]
+  },
+  {
+    label: "Insomnia",
+    content: [
+      "feelings of guilt",
+      "fear & anxiety",
+      "reaction to potentially threatening situations",
+      "worry",
+      "tensions in life"
+    ]
+  },
+  {
+    label: "Internal Bleeding",
+    content: [
+      "possibly an internalized effect of hidden sorrow or grief that a person feels they cannot reveal to others"
+    ]
+  },
+  {
+    label: "Intestinal Diseases",
+    content: [
+      "the desire to stay in your comfort zone",
+      "wanting to live in the past",
+      "inability to assimilate & absorb the new in life"
+    ]
+  },
+  {
+    label: "Itching",
+    content: [
+      "desires gone unfulfilled",
+      "feeling inadequate or unworthy"
+    ]
+  },
+  {
+    label: "Jaundice",
+    content: [
+      "not allowing the self or others to just ‘be’",
+      "experiencing difficulty in loving the self"
+    ]
+  },
+  {
+    label: "Jaw Problems (TMJ Syndrome)",
+    content: [
+      "feelings of rage",
+      "subconsciously wanting revenge",
+      "inability to express feelings"
+    ]
+  },
+  {
+    label: "Joints",
+    content: [
+      "feelings of resentment",
+      "suppressing hurt feelings",
+      "resisting changing direction in life"
+    ]
+  },
+  {
+    label: "Kidney problems",
+    content: [
+      "being insensitive to situations where caring & concern should be exhibited",
+      "trying to control life",
+      "being disloyal to the self",
+      "being over-judgemental",
+      "deep subconscious resentments toward people & experiences of the past",
+      "criticism of others",
+      "repressed emotions",
+      "displeased with your relationship with yourself",
+      "leaving yourself out to please someone else",
+      "feelings of disappointment",
+      "feelings of failure",
+      "feelings of shame"
+    ]
+  },
+  {
+    label: "Kidney Stones",
+    content: [
+      "feelings of anger",
+      "feelings of hate taking form",
+      "inability to digest what is happening",
+      "feelings of bitterness"
+    ]
+  },
+  {
+    label: "Knee Problems",
+    content: [
+      "unable to be flexible",
+      "not wanting to bend, usually to authority",
+      "ego is in the way",
+      "pride is in the way",
+      "stubborn - wanting your own way",
+      "fear",
+      "____________________________",
+      "<strong>knee - left</strong>",
+      "needing to be more receptive to events",
+      "feelings of insecurity",
+      "unresolved stress",
+      "____________________________",
+      "<strong>knee - right</strong>",
+      "needing to be more assertive",
+      "not wanting to give in to authority"
+    ]
+  },
+  {
+    label: "Knuckles",
+    content: [
+      "lacking acceptance",
+      "lacking flexibility",
+      "inability to change viewpoint"
+    ]
+  },
+  {
+    label: "Laryngitis",
+    content: [
+      "fears voicing opinions",
+      "feelings of resentment toward authority",
+      "repressed emotions and fears",
+      "feelings of anger",
+      "irritation at someone or some situation"
+    ]
+  },
+  {
+    label: "Leaky gut",
+    content: [
+      "inability to care (feelings) for others",
+      "frustration at not having things go the way you want",
+      "wanting to get rid of particular emotions",
+      "feelings of resentment due to the inability to change others",
+      "feelings of homelessness & helplessness",
+      "feeling angry at life"
+    ]
+  },
+  {
+    label: "Left Side of the Body",
+    content: [
+      "spiritual direction",
+      "feminine side",
+      "protecting",
+      "receiving",
+      "taking",
+      "issues relating to the mother",
+      "receptivity"
+    ]
+  },
+  {
+    label: "Leg Problems",
+    content: [
+      "fear of moving ahead with life",
+      "fear of change",
+      "having difficulty in being resolute about issues",
+      "inability to understand",
+      "____________________________",
+      "<strong>leg paralysis</strong>",
+      "avoiding a situation that you don’t like",
+      "avoiding something that you are afraid of"
+    ]
+  },
+  {
+    label: "Leprosy",
+    content: [
+      "inability to handle life",
+      "a long held belief in not being good enough or clean enough"
+    ]
+  },
+  {
+    label: "Leukemia",
+    content: [
+      "deep depression",
+      "feelings of anger or ill will",
+      "significant loss of a parent or a career position",
+      "feelings of total helplessness",
+      "giving up or quitting",
+      "unable to express emotions",
+      "feeling that present conditions and future possibilities are intolerable",
+      "feelings of despair & futility",
+      "resentment against females, either generically or specifically",
+      "a disconnection from the feminine side"
+    ]
+  },
+  {
+    label: "Leukorrhea",
+    content: [
+      "feeling sexual guilt",
+      "feeling powerless",
+      "feeling anger towards partner"
+    ]
+  },
+  {
+    label: "Ligaments",
+    content: [
+      "controlling others",
+      "letting others control you",
+      "not being able to control yourself"
+    ]
+  },
+  {
+    label: "Lips",
+    content: [
+      "cracked corners - feelings of frustration, inability to say more for fear of saying the wrong thing",
+      "____________________________",
+      "<strong>parched</strong>",
+      "feeling frustrated at the inability to impart knowledge"
+    ]
+  },
+  {
+    label: "Liver (anger center)",
+    content: [
+      "unresolved anger",
+      "feelings of resentment & pettiness",
+      "being judgmental",
+      "critical thoughts",
+      "not forgiving the self & others",
+      "feelings of injustice & revenge",
+      "feelings of self-condemnation",
+      "feelings of regret",
+      "feelings of sadness",
+      "being possessive",
+      "chronic complaining",
+      "feeling bad"
+    ]
+  },
+  {
+    label: "Lock Jaw",
+    content: [
+      "feelings of rage",
+      "wanting to control",
+      "inability to express how one feels"
+    ]
+  },
+  {
+    label: "Lou Gehrig’s Disease",
+    content: [
+      "unwillingness to accept your self-worth",
+      "denial of success"
+    ]
+  },
+  {
+    label: "Lumps",
+    content: [
+      "feeling inadequate or unworthy",
+      "not trusting yourself",
+      "frustration at not moving forward in life",
+      "feeling blocked",
+      "carrying feelings of guilt",
+      "unresolved sorrow",
+      "built up feelings of confusion"
+    ]
+  },
+  {
+    label: "Lungs",
+    content: [
+      "feelings of grief",
+      "not feeling approval",
+      "feeling hurt where love is concerned",
+      "feeling that life is monotonous",
+      "not being able to do things your way"
+    ]
+  },
+  {
+    label: "Lupus",
+    content: [
+      "deep-seeded grief",
+      "feeling like giving up",
+      "laughing on the outside, but crying on the inside",
+      "feeling that it is better to die than to stand up for one’s self",
+      "anger & punishment"
+    ]
+  },
+  {
+    label: "Lymph System",
+    content: [
+      "lack of enthusiasm",
+      "unable to feel acceptance",
+      "negative thoughts against yourself"
+    ]
+  },
+  {
+    label: "Lymphatic Vessels",
+    content: [
+      "issues with regards to giving & receiving love",
+      "unable to feel peace & joy",
+      "resentment, hatred, or anger built up inside"
+    ]
+  },
+ {
+    label: "Male Problems",
+    content: [
+      "feeling inadequate in sexual role",
+      "refusal to let go of the past",
+      "feelings of guilt",
+      "unresolved issues from previous relationships",
+      "feeling unfulfilled in love"
+    ]
+  },
+  {
+    label: "Mastitis (see breast problems)",
+    content: []
+  },
+  {
+    label: "Mastoiditis",
+    content: [
+      "not wanting to hear what is happening in surroundings",
+      "fears that affect the understanding",
+      "feeling left out"
+    ]
+  },
+  {
+    label: "Memory Problems",
+    content: [
+      "not feeling valued",
+      "feeling that others aren’t interested in what you know"
+    ]
+  },
+  {
+    label: "Meningitis",
+    content: [
+      "not being open to new insights",
+      "feeling that you know it all"
+    ]
+  },
+  {
+    label: "Menopause",
+    content: [
+      "fears this time of life & getting older",
+      "fears being rejected",
+      "feeling useless",
+      "hot flashes",
+      "anger at not having control of your own body",
+      "holding the false belief that they can’t be avoided"
+    ]
+  },
+  {
+    label: "Menstrual Problems",
+    content: [
+      "unresolved feelings of guilt",
+      "fears role as a woman",
+      "feeling no joy in being a woman"
+    ]
+  },
+  {
+    label: "Migraine Headaches",
+    content: [
+      "unable to flow easily with life",
+      "wanting to take things at own pace",
+      "dislikes being pushed",
+      "inability to handle pressure or stress for long periods",
+      "pushing to control; wants to control"
+    ]
+  },
+  {
+    label: "Mind",
+    content: [
+      "over-analyzation",
+      "fear of the unknown"
+    ]
+  },
+  {
+    label: "Miscarriage",
+    content: [
+      "fears that the timing is ‘wrong’",
+      "fears what the future will bring",
+      "fears the responsibility of a baby"
+    ]
+  },
+  {
+    label: "Moles",
+    content: [
+      "feeling inadequate or unworthy (usually generational)",
+      "growths from false beliefs about the self"
+    ]
+  },
+  {
+    label: "Mononucleosis",
+    content: [
+      "feeling unloved",
+      "feelings of anger from not being appreciated",
+      "no longer caring for the self"
+    ]
+  },
+  {
+    label: "Motion Sickness",
+    content: [
+      "fears not having control"
+    ]
+  },
+  {
+    label: "Mouth Problems",
+    content: [
+      "resistant to change",
+      "fears moving out of comfort zone",
+      "opinionated",
+      "hiding",
+      "feelings of powerlessness",
+      "unable to express opinions",
+      "feelings of bitterness"
+    ]
+  },
+  {
+    label: "Multiple Sclerosis",
+    content: [
+      "being hard on the self; blaming the self",
+      "unwilling to be flexible",
+      "unreceptive to new ideas",
+      "unforgiving of self or others",
+      "lack of communication with others",
+      "incorrect use of will"
+    ]
+  },
+  {
+    label: "Munchausen Syndrome",
+    content: [
+      "distrust in others",
+      "suppressed emotional hurts",
+      "feeling that ‘no one cares’",
+      "unresolved resentments"
+    ]
+  },
+  {
+    label: "Munchausen Syndrome by Proxy (MSbP)",
+    content: [
+      "inflexibility in mind set",
+      "the need to control",
+      "fear",
+      "unable to flow with life",
+      "inability to release something"
+    ]
+  },
+  {
+    label: "Muscles",
+    content: [
+      "feelings of guilt",
+      "not performing to your standard",
+      "unable to ‘own’ something that you have or have not done",
+      "being resistant to new experiences",
+      "____________________________",
+      "<strong>muscle cramps</strong>",
+      "being stubborn in nature",
+      "resisting moving forward in life"
+    ]
+  },
+  {
+    label: "Muscular-Skeletal Disease (muscular dystrophy)",
+    content: [
+      "unresolved, deep-seeded anger",
+      "feeling ‘i must experience pain’",
+      "a form of self-created paralysis to keep from hitting someone or moving forward"
+    ]
+  },
+  {
+    label: "Myasthenia Gravis",
+    content: [
+      "laughing on the outside, but crying on the inside",
+      "feelings of helplessness",
+      "feelings of grief",
+      "fears a change in life",
+      "feeling like giving up"
+    ]
+  },
+  {
+    label: "Nail-Biting",
+    content: [
+      "unfulfilled desires",
+      "feeling spiteful towards parents",
+      "frustration",
+      "destroying the self"
+    ]
+  },
+  {
+    label: "Narcissistic Personality Disorder",
+    content: [
+      "feeling unworthy of love",
+      "feeling that others are unworthy of love",
+      "fear",
+      "unwilling to trust others"
+    ]
+  },
+  {
+    label: "Narcolepsy",
+    content: [
+      "not wanting to cope anymore",
+      "wishing you were somewhere else",
+      "wishing responsibilities would go away",
+      "fear"
+    ]
+  },
+  {
+    label: "Nausea",
+    content: [
+      "rejecting the visualization of something you don’t want to see",
+      "fear of something about to happen",
+      "rejecting an idea or experience"
+    ]
+  },
+  {
+    label: "Neck Problems",
+    content: [
+      "moving under pressure",
+      "wanting to let feelings out but don’t dare",
+      "inflexible state of mind",
+      "not wanting to yield to opinions you think are wrong",
+      "non-acceptance & rejection of others"
+    ]
+  },
+  {
+    label: "Nephritis",
+    content: [
+      "disappointment",
+      "failure",
+      "feeling that life is unfair"
+    ]
+  },
+  {
+    label: "Nerves",
+    content: [
+      "influenced by thoughts & feelings",
+      "how the body communicates within",
+      "____________________________",
+      "<strong>parasympathetic</strong>",
+      "holding on to things or people of the past that need releasing"
+    ]
+  },
+  {
+    label: "Nervous Breakdown",
+    content: [
+      "fear of the future",
+      "inability to communicate true feelings",
+      "not recognizing/accepting own power"
+    ]
+  },
+  {
+    label: "Nervousness",
+    content: [
+      "inability to communicate feelings adequately",
+      "fear of the future",
+      "anxiety",
+      "not trusting the process of life",
+      "feeling the need to be in struggle",
+      "feeling the need to rush"
+    ]
+  },
+  {
+    label: "Neuritis",
+    content: [
+      "your power is negated due to being irritated"
+    ]
+  },
+  {
+    label: "Neurosis",
+    content: [
+      "feelings of overload",
+      "pressures in life feel too hard to bear",
+      "feeling that there is no letting up",
+      "feeling that you can’t quit",
+      "confusion",
+      "feelings of anger",
+      "fear"
+    ]
+  },
+  {
+    label: "Nodules",
+    content: [
+      "feelings of frustration & resentment",
+      "feeling that you always have to prove yourself",
+      "the ego feels in jeopardy",
+      "inability to move forward",
+      "feeling unprepared",
+      "feeling unwanted and useless"
+    ]
+  },
+  {
+    label: "Nose",
+    content: [
+      "bleeds",
+      "feeling overlooked",
+      "crying for love",
+      "needing attention",
+      "feeling that life is unfair",
+      "feeling picked on",
+      "____________________________",
+      "<strong>blocked</strong>",
+      "not enjoying life",
+      "____________________________",
+      "<strong>broken</strong>",
+      "rebelling against learning due to resentment",
+      "____________________________",
+      "<strong>bulbous</strong>",
+      "continually going against your feelings",
+      "compromising your principles",
+      "____________________________",
+      "<strong>runny</strong>",
+      "crying on the inside",
+      "wanting help",
+      "running away from unwanted responsibility",
+      "____________________________",
+      "<strong>stuffy</strong>",
+      "desire for love",
+      "impatience",
+      "unwillingness to just be yourself",
+      "not recognizing the self-worth"
+    ]
+  },
+  {
+    label: "Numbness",
+    content: [
+      "withholding love and consideration"
+    ]
+  },
+  {
+    label: "Obesity",
+    content: [
+      "stuffed feelings",
+      "protecting the body",
+      "inability to admit to self or to others what you really desire",
+      "using food as a substitute for affection",
+      "inability to express true feelings",
+      "seeking love"
+    ]
+  },
+  {
+    label: "Obsessive-Compulsive Disorder (OCD)",
+    content: [
+      "inability to cope with life stresses",
+      "feeling victimized",
+      "fear",
+      "inability to resolve hurt feelings",
+      "the need to control",
+      "feeling controlled by someone or something"
+    ]
+  },
+  {
+    label: "Orthorexia",
+    content: [
+      "feeling that you’re on a shaky foundation",
+      "unsatisfied needs never met",
+      "having high expectations of self and others",
+      "desire to control",
+      "self-hatred",
+      "unwilling to let go"
+    ]
+  },
+  {
+    label: "Osteomyelitis",
+    content: [
+      "feeling a lack of support",
+      "feeling angry at life"
+    ]
+  },
+  {
+    label: "Osteoporosis",
+    content: [
+      "feeling totally unsupported in life",
+      "no stability",
+      "no security",
+      "no foundation to build"
+    ]
+  },
+  {
+    label: "Ovaries",
+    content: [
+      "loneliness",
+      "the desire to feel love & respect",
+      "feeling inadequate in sexual role"
+    ]
+  },
+  {
+    label: "Over-Eating (compulsive)",
+    content: [
+      "tension",
+      "feeling a material and/or emotional lack",
+      "craving closeness",
+      "a symbol of power & desire to throw one’s weight around",
+      "emotional energy based on anger & resentment"
+    ]
+  },
+  {
+    label: "Overweight",
+    content: [
+      "feelings of insecurity",
+      "feelings of self-rejection",
+      "wanting to protect the body",
+      "seeking love & fulfillment",
+      "attempting to fulfill the self",
+      "feelings are being stuffed inside",
+      "unexpressed, misperceived & inappropriate feelings"
+    ]
+  },
+ {
+    label: "Pain",
+    content: [
+      "feeling guilt",
+      "in a relationship that hurts",
+      "indication that something is imbalance",
+      "your higher self trying to get your attention",
+      "repressed anger & frustration"
+    ]
+  },
+  {
+    label: "Pasly",
+    content: [
+      "feeling stagnant in life",
+      "feeling that you can’t move forward"
+    ]
+  },
+  {
+    label: "Pancreas",
+    content: [
+      "judgment",
+      "feeling guilt",
+      "low self-worth",
+      "suppressing laughter",
+      "feeling that the joy of living is gone/not allowing joy",
+      "feeling ashamed of something you have done"
+    ]
+  },
+  {
+    label: "Paralysis",
+    content: [
+      "feeling overwhelmed by responsibilities",
+      "subconsciously wanting to escape",
+      "resisting life",
+      "fear of the future",
+      "____________________________",
+      "<strong>left-arm</strong>",
+      "difficulty in receiving from others",
+      "____________________________",
+      "<strong>right-arm</strong>",
+      "difficulty in giving to others",
+      "resistance to an unexplained hardness of will",
+      "tension of the mind"
+    ]
+  },
+  {
+    label: "Parasites",
+    content: [
+      "giving power to others"
+    ]
+  },
+  {
+    label: "Parathyroid",
+    content: [
+      "unresolved anger"
+    ]
+  },
+  {
+    label: "Parkinson’s Disease",
+    content: [
+      "fear",
+      "lack of inner communication",
+      "wanting to control",
+      "fears not being able to control"
+    ]
+  },
+  {
+    label: "Pelvis",
+    content: [
+      "unable to remain grounded or focused in emotional activity",
+      "holding on to sexual feelings"
+    ]
+  },
+  {
+    label: "Peptic Ulcer",
+    content: [
+      "fear",
+      "a belief that you are not good enough",
+      "feeling responsible for pleasing everyone"
+    ]
+  },
+  {
+    label: "Phlebitis",
+    content: [
+      "feelings of being trapped",
+      "feeling that life’s immediate problems can’t be solved",
+      "feelings of anger & frustration",
+      "blaming others for the limitation and lack of joy in life"
+    ]
+  },
+  {
+    label: "Pimples",
+    content: [
+      "unresolved frustrations",
+      "hidden anger surfacing",
+      "disliking the self"
+    ]
+  },
+  {
+    label: "Pineal Gland",
+    content: [
+      "refusing to receive understanding & enlightenment",
+      "belief in the need for stress and tension",
+      "worrying about the future",
+      "belief that happiness is an illusion"
+    ]
+  },
+  {
+    label: "Pink Eye",
+    content: [
+      "feelings of frustration",
+      "feelings of anger at the present situation",
+      "wanting to obscure what is going on around you"
+    ]
+  },
+  {
+    label: "Pituitary Gland",
+    content: [
+      "continually picturing ill health or sickness",
+      "feelings of being a constant recipient of bad luck/misfortune",
+      "not seeing any good"
+    ]
+  },
+  {
+    label: "Plantar Fasciitis",
+    content: [
+      "feelings of unworthiness",
+      "inability to control yourself",
+      "fears moving forward",
+      "frustration at not having things go the way you want"
+    ]
+  },
+  {
+    label: "Plantar Warts",
+    content: [
+      "frustrated about life & the future",
+      "deep-seeded anger"
+    ]
+  },
+  {
+    label: "Pleurisy",
+    content: [
+      "feelings of antagonism",
+      "feelings of hostility",
+      "lack of enthusiasm for what you are doing"
+    ]
+  },
+  {
+    label: "Pneumonia",
+    content: [
+      "weary of life",
+      "feelings of depression",
+      "deep emotional hurts that have not healed"
+    ]
+  },
+  {
+    label: "Poison Ivy/Oak (negative reaction to)",
+    content: [
+      "feeling defenseless and open to attack"
+    ]
+  },
+  {
+    label: "Polio",
+    content: [
+      "paralyzing jealousy",
+      "a desire to stop someone"
+    ]
+  },
+  {
+    label: "Polycystic Ovary Syndrome (PCOS)",
+    content: [
+      "feeling oppressed",
+      "feelings of inferiority",
+      "feelings of weakness",
+      "an imbalance between feminine and masculine energy",
+      "afraid to express emotion",
+      "feeling not good enough",
+      "constantly trying to prove worthiness"
+    ]
+  },
+  {
+    label: "Polyps",
+    content: [
+      "hidden anger surfacing",
+      "inability to resolve hurt feelings",
+      "repressed feelings",
+      "unable to accept the self"
+    ]
+  },
+  {
+    label: "Post Nasal Drip",
+    content: [
+      "feeling that you are a victim",
+      "crying on the inside"
+    ]
+  },
+  {
+    label: "Post-Traumatic Stress Disorder (PTSD)",
+    content: [
+      "unable to accept the self",
+      "fear of the new",
+      "holding on to old beliefs about life and self",
+      "repressed feelings"
+    ]
+  },
+  {
+    label: "Premenstrual Syndrome (PMS)",
+    content: [
+      "relinquishing power to others",
+      "rejecting the feminine aspect of self"
+    ]
+  },
+  {
+    label: "Primary Aldosteronism",
+    content: [
+      "no longer caring for the self",
+      "lack of joy",
+      "feelings of heartbreak",
+      "holding on to old beliefs about life and the self",
+      "not recognizing your own needs",
+      "jealousy"
+    ]
+  },
+  {
+    label: "Prostate Problems",
+    content: [
+      "sexual pressure and guilt",
+      "refusing to let go of the past",
+      "fear of aging",
+      "giving up",
+      "____________________________",
+      "<strong>prostate cancer</strong>",
+      "repressed anger at being restricted"
+    ]
+  },
+  {
+    label: "Psoriasis",
+    content: [
+      "emotional insecurity",
+      "not speaking your truth with love",
+      "refusing to accept responsibility for your own feelings",
+      "unresolved hurt feelings",
+      "feelings of guilt",
+      "feelings of shame",
+      "feelings of inadequacy"
+    ]
+  },
+  {
+    label: "Psoriatic Arthritis (PSA)",
+    content: [
+      "holding on to old beliefs about life and the self",
+      "unwilling to be flexible",
+      "unforgiving of self and others",
+      "feeling like you’re in the wrong place (job, city, relationship, etc.)",
+      "beliefs are being shaken"
+    ]
+  },
+  {
+    label: "Psychosis",
+    content: [
+      "a need to escape",
+      "fear",
+      "wanting to forget",
+      "feeling fragmented"
+    ]
+  },
+  {
+    label: "Pyorrhea",
+    content: [
+      "angry at the self for not being able to make decisions"
+    ]
+  },
+  {
+    label: "Rabies",
+    content: [
+      "anger",
+      "belief that violence is the answer"
+    ]
+  },
+  {
+    label: "Rash",
+    content: [
+      "being irritated by something or someone",
+      "unable to flow with life"
+    ]
+  },
+  {
+    label: "Respiratory Problems",
+    content: [
+      "not feeling approval",
+      "lack of love",
+      "fears living life to the fullest"
+    ]
+  },
+  {
+    label: "Restless Leg Syndrome",
+    content: [
+      "feeling hopeless and helpless",
+      "stifled creativity",
+      "not recognizing your own needs"
+    ]
+  },
+  {
+    label: "Rheumatism",
+    content: [
+      "feeling victimized",
+      "long-standing bitterness",
+      "not able to give or receive love",
+      "feelings of resentment & revenge"
+    ]
+  },
+  {
+    label: "Right Side of the Body",
+    content: [
+      "physical direction",
+      "masculine side",
+      "fighting",
+      "giving",
+      "releasing side",
+      "issues relating to the father"
+    ]
+  },
+  {
+    label: "Ringworm",
+    content: [
+      "allowing others to get under your skin",
+      "not feeling good enough or clean enough"
+    ]
+  },
+  {
+    label: "Root Canal",
+    content: [
+      "root beliefs are being destroyed"
+    ]
+  },
+  {
+    label: "Rosacea",
+    content: [
+      "frustration at not having things go the way you want",
+      "hidden anger surfacing",
+      "giving away your power",
+      "feeling unloved"
+    ]
+  },
+ {
+    label: "Sacroiliac Problems",
+    content: [
+      "feeling like you’re in the wrong place (job, city, relationship, etc.)"
+    ]
+  },
+  {
+    label: "Sagging Lines",
+    content: [
+      "sagging lines in the face come from sagging thoughts in the mind",
+      "resentment"
+    ]
+  },
+  {
+    label: "Salivary Gland (sublingual gland)",
+    content: [
+      "not following through with your insights"
+    ]
+  },
+  {
+    label: "Sarcoidosis",
+    content: [
+      "wanting to be dependent",
+      "unresolved hurt feelings",
+      "fear of the future",
+      "unwilling to be flexible"
+    ]
+  },
+  {
+    label: "Scabies",
+    content: [
+      "infected thinking",
+      "allowing others to get under your skin"
+    ]
+  },
+  {
+    label: "Sciatica",
+    content: [
+      "being hypocritical",
+      "mental anxieties regarding creative abilities",
+      "fear of money",
+      "fear of the future",
+      "sexual abnormality or frustration",
+      "disregarding your own desires"
+    ]
+  },
+  {
+    label: "Scleroderma",
+    content: [
+      "protecting the self from life",
+      "not trusting yourself to be there & to take care of yourself"
+    ]
+  },
+  {
+    label: "Scoliosis",
+    content: [
+      "carrying the burdens of life",
+      "feeling helpless & hopeless"
+    ]
+  },
+  {
+    label: "Seasickness",
+    content: [
+      "fear",
+      "fear of death",
+      "lack of control"
+    ]
+  },
+ {
+    label: "Seizures",
+    content: [
+      "critical thoughts",
+      "anxiety",
+      "imbalance",
+      "repressed anger"
+    ]
+  },
+  {
+    label: "Senility",
+    content: [
+      "inability to stay in the present",
+      "longing to return to security of by-gone years",
+      "wanting to control those around you",
+      "not willing to change your life",
+      "escapism"
+    ]
+  },
+  {
+    label: "Sensory-Processing Disorder",
+    content: [
+      "overstimulated",
+      "fear",
+      "afraid to experience life",
+      "____________________________",
+      "<strong>sensory-seeker</strong>",
+      "untrusting",
+      "not feeling grounded"
+    ]
+  },
+  {
+    label: "Sex Organs",
+    content: [
+      "feelings of apathy",
+      "feeling separated"
+    ]
+  },
+  {
+    label: "Sexuality (concerns regarding)",
+    content: [
+      "imbalance in giving or receiving",
+      "pressures in life feel too hard to bear",
+      "feeling unprotected",
+      "inability to express anger",
+      "guilt or feelings of inadequacy and unworthiness",
+      "desire to feel love and respect",
+      "feeling separated",
+      "negative feelings against yourself",
+      "conflicting ideas about sex",
+      "fear, resentments, or guilt having to do with sex and sexual relationships",
+      "not feeling centered",
+      "scattered thinking",
+      "feeling inadequate in sexual role",
+      "unresolved issues from previous relationships",
+      "feeling unloved"
+    ]
+  },
+  {
+    label: "Shingles",
+    content: [
+      "fear things won’t work out the way you want",
+      "susceptibility to an attack",
+      "on-going tension concerning a situation"
+    ]
+  },
+  {
+    label: "Shins",
+    content: [
+      "not being true to ideals & values"
+    ]
+  },
+  {
+    label: "Shoulders",
+    content: [
+      "bearing burdens that don’t belong to you",
+      "feeling that life is too great a burden to bear",
+      "carrying stressful responsibilities",
+      "lacking in courage",
+      "____________________________",
+      "<strong>hunched & sloped</strong>",
+      "feeling that life is a tough struggle",
+      "____________________________",
+      "<strong>round</strong>",
+      "feeling hopeless/helpless",
+      "____________________________",
+      "<strong>scoliosis</strong>",
+      "inability to trust life",
+      "____________________________",
+      "<strong>right</strong>",
+      "relates to financial",
+      "____________________________",
+      "<strong>left</strong>",
+      "relates to family"
+    ]
+  },
+  {
+    label: "Sickle Cell Anemia",
+    content: [
+      "feelings of inferiority"
+    ]
+  },
+  {
+    label: "Sinus Problems",
+    content: [
+      "being irritated by a person close to you",
+      "trying to call the shots in someone else’s life",
+      "allowing others to call the shots in your life"
+    ]
+  },
+  {
+    label: "Skin Disease",
+    content: [
+      "irritation",
+      "criticism",
+      "disturbed reactions over trivial things",
+      "lack of security",
+      "impatience",
+      "feeling bored",
+      "feeling unsettled"
+    ]
+  },
+  {
+    label: "Skin Rashes",
+    content: [
+      "inner conflict",
+      "someone or something is irritating you",
+      "feeling frustrated at not being able to accomplish something"
+    ]
+  },
+  {
+    label: "Sleep Apnea",
+    content: [
+      "feelings of inadequacy",
+      "feeling unable to take in life fully",
+      "feelings of helplessness",
+      "not trusting the process of life",
+      "not feeling approval",
+      "grief"
+    ]
+  },
+  {
+    label: "Slipped Disc",
+    content: [
+      "feeling no support in life",
+      "indecisive"
+    ]
+  },
+  {
+    label: "Snoring",
+    content: [
+      "refusal to eliminate old patterns",
+      "not being devoted to self"
+    ]
+  },
+  {
+    label: "Sore-Throat",
+    content: [
+      "unexpressed anger",
+      "feeling unable to express the self"
+    ]
+  },
+  {
+    label: "Sores",
+    content: [
+      "unexpressed anger that settles in"
+    ]
+  },
+  {
+    label: "Spasms",
+    content: [
+      "tightening your thoughts through fear"
+    ]
+  },
+  {
+    label: "Spastic Colon",
+    content: [
+      "insecurity",
+      "unable to let go and flow with life"
+    ]
+  },
+  {
+    label: "Spinal Meningitis",
+    content: [
+      "rage",
+      "inflamed thinking"
+    ]
+  },
+  {
+    label: "Spine",
+    content: [
+      "the ego getting carried away in pride",
+      "afraid to live in your feelings",
+      "shyness",
+      "inferiority",
+      "not supporting or standing up for yourself"
+    ]
+  },
+  {
+    label: "Spleen",
+    content: [
+      "lack of self-love",
+      "insincere with self & others",
+      "inability to feel others’ love",
+      "emotional conflicts",
+      "anger & antagonism",
+      "agitation",
+      "feeling melancholy"
+    ]
+  },
+  {
+    label: "Sprains",
+    content: [
+      "resistance",
+      "not wanting to move in a certain direction in life",
+      "feelings of anger"
+    ]
+  },
+  {
+    label: "Spur",
+    content: [
+      "extreme nervous tension",
+      "hard & cold in attitudes",
+      "fear & resistance to the process of life"
+    ]
+  },
+  {
+    label: "Stiffness",
+    content: [
+      "inability to give",
+      "inflexible in opinions & attitudes",
+      "rigid feelings"
+    ]
+  },
+  {
+    label: "Stomach Problems",
+    content: [
+      "our sense of security feels threatened",
+      "fears new ideas",
+      "lack of affection",
+      "condemning the success of other people",
+      "unhappy feelings"
+    ]
+  },
+  {
+    label: "Stroke",
+    content: [
+      "rejecting life at a deep level",
+      "extreme resistance",
+      "impatience with the self for not improving a situation",
+      "impatient for not being able to perform like you want to",
+      "self-violence",
+      "feeling overloaded with the pressures of life",
+      "feeling like giving up"
+    ]
+  },
+  {
+    label: "Stuttering",
+    content: [
+      "wanting to protest, but dares not",
+      "feeling inferior",
+      "not accepting the self",
+      "unable to express the self",
+      "emotionally insecure",
+      "having to always please authority figures"
+    ]
+  },
+  {
+    label: "Sty",
+    content: [
+      "unresolved feelings of anger toward someone",
+      "not seeing the best in another person",
+      "resentment"
+    ]
+  },
+  {
+    label: "Suicidal",
+    content: [
+      "feeling unable to resolve life’s problems",
+      "feeling hopeless",
+      "feeling that ‘everyone would be better off without me’"
+    ]
+  },
+  {
+    label: "Swelling",
+    content: [
+      "holding on to negative feelings"
+    ]
+  },
+  {
+    label: "TMJ",
+    content: [
+      "feelings of rage",
+      "subconsciously wanting revenge",
+      "inability to express how one feels"
+    ]
+  },
+  {
+    label: "Tailbone",
+    content: [
+      "unduly concerned with material needs & survival needs"
+    ]
+  },
+  {
+    label: "Tapeworm",
+    content: [
+      "strong belief in being a victim & unclean",
+      "feeling helpless to the seeming attitudes of others"
+    ]
+  },
+  {
+    label: "Teeth",
+    content: [
+      "decay",
+      "feelings of unworthiness",
+      "fear of the future",
+      "anger due to inability to get needs met",
+      "____________________________",
+      "<strong>bleeding gums</strong>",
+      "inability to feel joy over decisions",
+      "____________________________",
+      "<strong>gum disease</strong>",
+      "stress",
+      "unforgiving",
+      "____________________________",
+      "<strong>painful</strong>",
+      "inability to be decisive",
+      "____________________________",
+      "<strong>upper</strong>",
+      "not understanding the big picture",
+      "____________________________",
+      "<strong>lower</strong>",
+      "impatience",
+      "____________________________",
+      "<strong>abscess</strong>",
+      "procrastination in carrying out plans",
+      "____________________________",
+      "<strong>root canal</strong>",
+      "root beliefs are being destroyed",
+      "____________________________",
+      "<strong>impacted wisdom teeth</strong>",
+      "not giving yourself space to create a firm foundation"
+    ]
+  },
+  {
+    label: "Tendons (knots in)",
+    content: [
+      "needing to forgive the self",
+      "inflexibility in mind set"
+    ]
+  },
+  {
+    label: "Testicles",
+    content: [
+      "rejecting masculinity"
+    ]
+  },
+  {
+    label: "Thalamus",
+    content: [
+      "impatience",
+      "feeling criticized"
+    ]
+  },
+  {
+    label: "Throat",
+    content: [
+      "inability to speak up for one’s self",
+      "stifled creativity",
+      "feelings of anger that have been restrained",
+      "strong critical words have been spoken",
+      "not having your own way",
+      "feelings of confusion",
+      "lack of discernment",
+      "swallowed emotional hurts"
+    ]
+  },
+  {
+    label: "Thrush",
+    content: [
+      "anger over making the wrong decisions"
+    ]
+  },
+  {
+    label: "Thymus",
+    content: [
+      "feeling attacked by life",
+      "feeling unprotected"
+    ]
+  },
+  {
+    label: "Thyroid",
+    content: [
+      "fears self-expression",
+      "frustration",
+      "anxiety",
+      "humiliation",
+      "feeling that it is never your turn",
+      "conflict between the conscious and the subconscious",
+      "____________________________",
+      "<strong>hyperthyroidism (overactive thyroid)</strong>",
+      "feelings of rage for being overlooked",
+      "____________________________",
+      "<strong>hypothyroidism (underactive thyroid)</strong>",
+      "giving up",
+      "not speaking your truth",
+      "burying your deepest desires",
+      "not living your true calling"
+    ]
+  },
+  {
+    label: "Parathyroid",
+    content: [
+      "unresolved anger"
+    ]
+  },
+  {
+    label: "Tics/Twitches",
+    content: [
+      "fear",
+      "a feeling of being watched by others"
+    ]
+  },
+  {
+    label: "Tinnitus",
+    content: [
+      "refusing to hear one’s inner voice",
+      "stubbornness",
+      "refusal to listen"
+    ]
+  },
+  {
+    label: "Toes",
+    content: [
+      "worrying about minor details of the future",
+      "____________________________",
+      "<strong>ingrown toenail</strong>",
+      "continually worrying",
+      "feeling guilt regarding your right to move forward",
+      "holding yourself back"
+    ]
+  },
+  {
+    label: "Tongue",
+    content: [
+      "not speaking truth",
+      "inability to taste the beauty & joy of life"
+    ]
+  },
+  {
+    label: "Tonsils",
+    content: [
+      "repressed fear or anger",
+      "irritation at someone or something",
+      "not getting your own way"
+    ]
+  },
+  {
+    label: "Toxins",
+    content: [
+      "negative feelings & thoughts against yourself",
+      "giving away your power"
+    ]
+  },
+  {
+    label: "Tuberculosis",
+    content: [
+      "continual selfishness",
+      "feeling possessive",
+      "being cruel to others"
+    ]
+  },
+  {
+    label: "Tumors",
+    content: [
+      "suppressed emotional hurts",
+      "holding on to feelings of hate & anger",
+      "remorse",
+      "jealousy",
+      "not trusting self or others",
+      "resentment",
+      "feeling that ‘no one cares’",
+      "not feeling close to parents"
+    ]
+  },
+  {
+    label: "Ulcers",
+    content: [
+      "worrying over details",
+      "frustration at not having things go the way you want",
+      "feelings of anxiety, fear or tension",
+      "seeking revenge",
+      "feelings of conflict/helplessness/powerlessness",
+      "belief that you are not good enough"
+    ]
+  },
+  {
+    label: "Underweight",
+    content: [
+      "holding on to worries/fears",
+      "distrusting life",
+      "tension"
+    ]
+  },
+  {
+    label: "Urinary Infections",
+    content: [
+      "putting blame on others for your problems",
+      "allowing another to irritate you"
+    ]
+  },
+  {
+    label: "Uterine Cancer",
+    content: [
+      "being ‘ticked off’ at the male gender",
+      "repressed anger",
+      "feeling like a martyr"
+    ]
+  },
+  {
+    label: "Uterus",
+    content: [
+      "unresolved feelings towards your mother",
+      "negative feelings toward the creative aspect of life",
+      "____________________________",
+      "<strong>fibroid tumor</strong>",
+      "repressed feelings about being female"
+    ]
+  },
+  {
+    label: "Vaginitis",
+    content: [
+      "feelings of anger towards your partner",
+      "sexual guilt",
+      "feeling a need to punish self",
+      "feeling a loss of someone or something loved"
+    ]
+  },
+  {
+    label: "Varicose Veins",
+    content: [
+      "pronounced tension",
+      "standing in a situation that you hate",
+      "discouragement",
+      "feeling overworked & overburdened",
+      "feelings of negativity & resistance"
+    ]
+  },
+  {
+    label: "Venereal Disease",
+    content: [
+      "feeling a need to be punished",
+      "sexual guilt"
+    ]
+  },
+  {
+    label: "Viral Infections",
+    content: [
+      "bitterness & ugliness overshadowing the beautiful & good in life",
+      "belief that ‘i get everything that comes along’"
+    ]
+  },
+  {
+    label: "Vitiligo",
+    content: [
+      "feelings of inadequacy",
+      "feeling like you don’t blend in with others"
+    ]
+  },
+  {
+    label: "Vomiting",
+    content: [
+      "violent rejection of ideas",
+      "fear of the new",
+      "wanting to get rid of these emotions",
+      "feelings of disgust"
+    ]
+  },
+  {
+    label: "Vulva",
+    content: [
+      "issues regarding vulnerability"
+    ]
+  },
+  {
+    label: "Warts",
+    content: [
+      "feelings of hate taking form",
+      "built up feelings of inadequacy & unworthiness",
+      "refusing to see the beauty in life"
+    ]
+  },
+  {
+    label: "Wisdom Teeth (impacted)",
+    content: [
+      "not giving yourself mental space to create a firm foundation"
+    ]
+  },
+  {
+    label: "Wrist",
+    content: [
+      "imbalance in giving or receiving",
+      "holding on to old beliefs about life & the self"
+    ]
+  },
+  {
+    label: "Yeast Infections",
+    content: [
+      "unresolved resentments",
+      "inability to claim one’s own power",
+      "unable to love & support the self",
+      "not recognizing own needs",
+      "unable to accept the self"
+    ]
+  }
+];
+
+
+    const container = document.getElementById("dropdownContainer");
+    const alphabetNav = document.getElementById("alphabetNav");
+
+    function createDropdowns() {
+      container.innerHTML = "";
+      const grouped = {};
+
+      data.forEach(entry => {
+        const letter = entry.label[0].toUpperCase();
+        if (!grouped[letter]) grouped[letter] = [];
+        grouped[letter].push(entry);
+      });
+
+      Object.keys(grouped).sort().forEach(letter => {
+         const header = document.createElement("h2");
+  header.textContent = letter;
+  header.style.color = "#4580b3"; // Optional: style to match your theme
+  header.style.marginTop = "30px";
+  header.style.marginBottom = "10px";
+  container.appendChild(header);
+
+        const anchor = document.createElement("a");
+        header.id = `letter-${letter}`;
+        container.appendChild(header);
+
+        grouped[letter].forEach(entry => {
+          const details = document.createElement("details");
+          details.classList.add("dropdown");
+          const summary = document.createElement("summary");
+          summary.innerHTML = `${entry.label} <span class="count-circle">${entry.content.length}</span>`;
+
+
+          details.appendChild(summary);
+
+          const ul = document.createElement("ul");
+         entry.content.forEach(item => {
+  const li = document.createElement("li");
+  if (item.includes("<strong>")) {
+    li.innerHTML = item; // Render HTML tags
+  } else {
+    li.textContent = item;
+  }
+  ul.appendChild(li);
+});
+
+          details.appendChild(ul);
+          container.appendChild(details);
+          details.addEventListener("toggle", function() {
+  if (details.open) {
+    // Close all other dropdowns
+    container.querySelectorAll("details").forEach(d => {
+      if (d !== details) d.open = false;
+    });
+  }
+});
+        });
+      });
+    }
+
+    function createAlphabetNav() {
+      const letters = [...new Set(data.map(d => d.label[0].toUpperCase()))].sort();
+      alphabetNav.innerHTML = "";
+      letters.forEach(letter => {
+        const btn = document.createElement("button");
+        btn.textContent = letter;
+        btn.onclick = () => {
+          const header = document.getElementById(`letter-${letter}`);
+          if (header) header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        alphabetNav.appendChild(btn);
+      });
+    }
+
+    function filterButtons() {
+  const query = document.getElementById("searchInput").value.toLowerCase();
+  const allDetails = container.querySelectorAll("details");
+  const allHeaders = container.querySelectorAll("h2");
+
+  allDetails.forEach(detail => {
+    const text = detail.querySelector("summary").textContent.toLowerCase();
+    detail.style.display = text.includes(query) ? "block" : "none";
+  });
+
+  // Hide headers if searching, show if not
+  allHeaders.forEach(header => {
+    header.style.display = query ? "none" : "block";
+  });
+}
+
+    createDropdowns();
+    createAlphabetNav();
+  </script>
+</body>
+</html>
+
+
